@@ -1,0 +1,173 @@
+<crud [listToolbarTitle]="'Pesquisa de Funcionarios'"
+      [editToolbarTitle]="'Cadastro de Funcionario'"
+      (filtrar)="doFilter()"
+      (novoCadastro)="novaLoja()"
+      (salvar)="doSave(this.model)"
+      (clear)="doClear()">
+
+  <!------------------- LIST CRUD TEMPLATE -------------------->
+  <div crud-list-filter-fields *ngIf="Mode == ModeEnum.List">
+    <dx-form #mainForm>
+      <dxi-item itemType="group" [colCount]="2">
+        <dxi-item [label]="{text:'Nome'}"
+                  [template]="'nomeTemplate'">
+
+        </dxi-item>
+
+        <dxi-item [label]="{text:'Data Admissão'}"
+                  [template]="'admissaoTemplate'">
+
+        </dxi-item>
+      </dxi-item>
+      <dxi-item [label]="{text:'Situação'}"
+                [template]="'situacaoTemplate'">
+
+      </dxi-item>
+
+      <!----------------- Templates ----------------->
+
+      <div *dxTemplate="let data of 'nomeTemplate'">
+        <dx-text-box [width]="500"
+        >
+
+        </dx-text-box>
+      </div>
+      <div *dxTemplate="let data of 'admissaoTemplate'">
+        <dx-date-box [width]="200"
+                     [showClearButton]="true"
+                     [useMaskBehavior]="true"
+                     [displayFormat]="'dd/MM/yyyy'">
+
+        </dx-date-box>
+      </div>
+
+      <div *dxTemplate="let data of 'situacaoTemplate'">
+        <dx-select-box [width]="200"
+                       [placeholder]="'Situação'"
+                       [items]="situacaoAtivoInativo"
+                       [showClearButton]="true">
+
+        </dx-select-box>
+      </div>
+    </dx-form>
+  </div>
+
+
+  <div crud-list-result-fields *ngIf="Mode == ModeEnum.List">
+    <dx-data-grid
+      [dataSource]="dataSource"
+      [rowAlternationEnabled]="true" >
+      <dxi-column dataField="nome">
+
+      </dxi-column>
+
+      <dxi-column dataField="dataAdmissao"
+                  cellTemplate="dataTemplate"
+                  [width]="'auto'">
+
+      </dxi-column>
+
+      <dxi-column dataField="situacao"
+                  cellTemplate="situacaoTemplate">
+
+      </dxi-column>
+
+      <!----------------- Templates ----------------->
+
+
+      <div *dxTemplate="let data of 'dataTemplate'">
+        {{ data.value ? (data.value | date:"dd/MM/yyyy") : "-" }}
+      </div>
+
+
+      <div *dxTemplate="let data of 'situacaoTemplate'">
+        {{ data.value && data.value == true ? "Ativo" : "Inativo" }}
+      </div>
+
+
+    </dx-data-grid>
+  </div>
+
+  <!------------------- EDIT CRUD TEMPLATE -------------------->
+
+  <div crud-edit-template *ngIf="Mode == ModeEnum.Edit">
+
+    <dx-tab-panel>
+      <dxi-item title="Funcionario">
+        <dx-form [(formData)]="funcionario">
+
+          <dxi-item dataField="nome"
+                    [isRequired]="true"
+                    [label]="{text:'Nome'}"
+                    [template]="'NomeTemplate'">
+
+          </dxi-item>
+
+          <dxi-item itemType="group" [colCount]="2">
+            <dxi-item dataField="dataAdmissao"
+                      [template]="'dataAdmissaoTemplate'">
+
+            </dxi-item>
+            <dxi-item dataField="situacao"
+                      [template]="'situacaoTemplate'">
+
+            </dxi-item>
+          </dxi-item>
+
+          <dxi-item dataField="dataDemissao"
+                    [template]="'dataDemissaoTemplate'"
+                    *ngIf="!model.situacao">
+
+          </dxi-item>
+
+
+          <!------------------- TEMPLATE -------------------->
+
+          <div *dxTemplate="let data of 'NomeTemplate'">
+            <dx-text-box [width]="500"
+                         [placeholder]="'Digite aqui o Nome'"
+                         [(value)]="model.nome">
+
+            </dx-text-box>
+          </div>
+
+          <div *dxTemplate="let data of 'dataAdmissaoTemplate'">
+            <dx-date-box [width]="200"
+                         [showClearButton]="true"
+                         [useMaskBehavior]="true"
+                         [displayFormat]="'dd/MM/yyyy'"
+                         [(value)]="model.dataAdmissao">
+
+            </dx-date-box>
+
+          </div>
+
+          <div *dxTemplate="let data of 'dataDemissaoTemplate'">
+            <dx-date-box [width]="200"
+                         [showClearButton]="true"
+                         [useMaskBehavior]="true"
+                         [displayFormat]="'dd/MM/yyyy'"
+                         [(value)]="model.dataDemissao">
+
+            </dx-date-box>
+
+          </div>
+
+          <div *dxTemplate="let data of 'situacaoTemplate'">
+            <dx-switch [(value)]="model.situacao"
+                       [switchedOnText]="'Ativo'"
+                       [switchedOffText]="'Inativo'">
+
+            </dx-switch>
+          </div>
+
+        </dx-form>
+
+      </dxi-item>
+
+
+    </dx-tab-panel>
+  </div>
+
+
+</crud>

@@ -1,0 +1,107 @@
+<crud [listToolbarTitle]="'Pesquisa de Fornecedores'"
+      [editToolbarTitle]="'Cadastro de Fornecedor'"
+      (filtrar)="doFilter()"
+      (novoCadastro)="novaLoja()"
+      (salvar)="doSave(this.model)"
+      (clear)="doClear()">
+
+  <!------------------- LIST CRUD TEMPLATE -------------------->
+  <div crud-list-filter-fields *ngIf="Mode == ModeEnum.List">
+    <dx-form #mainForm>
+      <dxi-item itemType="group" [colCount]="2">
+        <dxi-item [label]="{text:'Nome'}"
+                  [template]="'nomeTemplate'">
+
+        </dxi-item>
+
+        <dxi-item [label]="{text:'CNPJ'}"
+                  [template]="'cnpjTemplate'">
+
+        </dxi-item>
+      </dxi-item>
+
+
+      <!----------------- Templates ----------------->
+
+      <div *dxTemplate="let data of 'nomeTemplate'">
+        <dx-text-box [width]="500">
+
+        </dx-text-box>
+      </div>
+      <div *dxTemplate="let data of 'cnpjTemplate'">
+        <dx-text-box [width]="200">
+
+        </dx-text-box>
+      </div>
+
+    </dx-form>
+  </div>
+
+
+  <div crud-list-result-fields *ngIf="Mode == ModeEnum.List">
+    <dx-data-grid
+      [dataSource]="dataSource"
+      [rowAlternationEnabled]="true" >
+      <dxi-column dataField="nome">
+
+      </dxi-column>
+
+      <dxi-column dataField="cnpj">
+
+      </dxi-column>
+
+      <!----------------- Templates ----------------->
+
+
+    </dx-data-grid>
+  </div>
+
+  <!------------------- EDIT CRUD TEMPLATE -------------------->
+
+  <div crud-edit-template *ngIf="Mode == ModeEnum.Edit">
+
+    <dx-tab-panel>
+      <dxi-item title="Funcionario">
+        <dx-form [(formData)]="fornecedor">
+
+          <dxi-item dataField="nome"
+                    [isRequired]="true"
+                    [label]="{text:'Nome'}"
+                    [template]="'NomeTemplate'">
+
+          </dxi-item>
+
+          <dxi-item dataField="cnpj"
+                    [template]="'cnpjTemplate'">
+
+          </dxi-item>
+
+
+          <!------------------- TEMPLATE -------------------->
+
+          <div *dxTemplate="let data of 'NomeTemplate'">
+            <dx-text-box [width]="500"
+                         [placeholder]="'Digite aqui o Nome'"
+                         [(value)]="model.nome">
+
+            </dx-text-box>
+          </div>
+
+          <div *dxTemplate="let data of 'cnpjTemplate'">
+           <dx-text-box [(value)]="model.cnpj"
+           [mask]="'000.000.000/0000-00'"
+           [width]="200">
+
+           </dx-text-box>
+          </div>
+
+        </dx-form>
+
+      </dxi-item>
+
+
+    </dx-tab-panel>
+  </div>
+
+
+</crud>
