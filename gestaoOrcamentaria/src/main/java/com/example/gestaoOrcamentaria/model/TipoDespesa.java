@@ -19,8 +19,6 @@ public class TipoDespesa {
     private Boolean pagFornecedor;
     private Boolean pagFuncionario;
 
-
-
     @Version
     private Integer versao = 0;
 
