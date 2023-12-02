@@ -41,6 +41,15 @@ export class CadastroFornecedorCrudComponent extends AbstractCrud<Fornecedor,any
     if(this.model == null){
       this.model = new Fornecedor()
     }
+
+    this.router.url.includes('create') || this.router.url.includes('edit') ?
+      this.Mode = ModeEnum.Edit : this.Mode = ModeEnum.List;
+
+
+    if(this.router.url.includes('edit')){
+      this.findByID(this.router.url.split('/').pop()!)
+
+    }
     super.doOnInit();
   }
 
@@ -50,8 +59,13 @@ export class CadastroFornecedorCrudComponent extends AbstractCrud<Fornecedor,any
   }
 
   novaLoja() {
-    // this.router.navigate(['pages', 'cadastro-receita'])
-    this.Mode = ModeEnum.Edit
+    this.router.navigate(['cadastro-fornecedor', 'create'])
+  }
+
+  findByID(id:string){
+    this.mainService.getById(id).subscribe(resp => {
+      this.model = resp.body
+    })
   }
 
 

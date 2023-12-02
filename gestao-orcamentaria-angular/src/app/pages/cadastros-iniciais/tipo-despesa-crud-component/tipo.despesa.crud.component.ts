@@ -1,21 +1,19 @@
 import {Component, Injector, ViewChild} from "@angular/core";
-import {TipoReceita} from "../../../shared/model/tipo.receita";
-import {TipoReceitaService} from "../../../shared/services/tipo.receita.service";
 import {AbstractCrud} from "../../../shared/crud/abstract.crud";
 import {DxFormComponent} from "devextreme-angular";
 import {ModeEnum} from "../../../shared/enum/mode.enum";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
+import {TipoDespesa} from "../../../shared/model/tipo.despesa";
 import {SituacaoAtivoInativoEnum} from "../../../shared/enum/situacao.ativo.inativo.enum";
-import {Funcionario} from "../../../shared/model/funcionario";
-import {FuncionarioService} from "../../../shared/services/funcionario.service";
+import {TipoDespesaService} from "../../../shared/services/tipo.despesa.service";
 
 @Component({
-  selector: 'cadastro-funcionario',
-  templateUrl: './cadastro.funcionario.crud.component.html',
-  styleUrls: ['./cadastro.funcionario.crud.component.scss']
+  selector: 'tipo-despesa',
+  templateUrl: './tipo.despesa.crud.component.html',
+  styleUrls: ['./tipo.despesa.crud.component.scss']
 })
-export class CadastroFuncionarioCrudComponent extends AbstractCrud<Funcionario,any>  {
+export class TipoDespesaCrudComponent extends AbstractCrud<TipoDespesa,any>  {
 
   @ViewChild("mainForm",{static:false}) mainForm: DxFormComponent
 
@@ -23,24 +21,24 @@ export class CadastroFuncionarioCrudComponent extends AbstractCrud<Funcionario,a
 
 
 
-  funcionario:Funcionario;
+  tipoDespesa:TipoDespesa;
   protected readonly ModeEnum = ModeEnum;
   situacaoAtivoInativo:string[] = Object.values(SituacaoAtivoInativoEnum);
 
   constructor(private injector:Injector,
-              private mainService:FuncionarioService,
+              private mainService:TipoDespesaService,
               private router: Router) {
-    super(injector,"/cadastro-funcionario");
+    super(injector,"/cadastro-despesa");
 
   }
 
 
   protected override doOnInit() {
     if(this.model == null){
-      this.model = new Funcionario()
+      this.model = new TipoDespesa()
       this.model.situacao = true
-    }
 
+    }
     this.router.url.includes('create') || this.router.url.includes('edit') ?
       this.Mode = ModeEnum.Edit : this.Mode = ModeEnum.List;
 
@@ -58,7 +56,7 @@ export class CadastroFuncionarioCrudComponent extends AbstractCrud<Funcionario,a
   }
 
   novaLoja() {
-    this.router.navigate(['cadastro-funcionario', 'create'])
+    this.router.navigate(['cadastro-despesa', 'create'])
   }
 
   findByID(id:string){
@@ -68,6 +66,7 @@ export class CadastroFuncionarioCrudComponent extends AbstractCrud<Funcionario,a
   }
 
   override beforeDoSave(): Observable<any> | null {
+    console.log(this.model)
     return super.beforeDoSave();
   }
 

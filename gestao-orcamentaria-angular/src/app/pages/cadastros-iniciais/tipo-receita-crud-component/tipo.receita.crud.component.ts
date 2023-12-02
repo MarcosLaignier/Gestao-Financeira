@@ -7,40 +7,39 @@ import {ModeEnum} from "../../../shared/enum/mode.enum";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {SituacaoAtivoInativoEnum} from "../../../shared/enum/situacao.ativo.inativo.enum";
-import {Funcionario} from "../../../shared/model/funcionario";
-import {FuncionarioService} from "../../../shared/services/funcionario.service";
+import {CrudComponent} from "../../../shared/components/base-crud/crud.component";
 
 @Component({
-  selector: 'cadastro-funcionario',
-  templateUrl: './cadastro.funcionario.crud.component.html',
-  styleUrls: ['./cadastro.funcionario.crud.component.scss']
+  selector: 'tipo-receita',
+  templateUrl: './tipo.receita.crud.component.html',
+  styleUrls: ['./tipo.receita.crud.component.scss']
 })
-export class CadastroFuncionarioCrudComponent extends AbstractCrud<Funcionario,any>  {
+export class TipoReceitaCrudComponent extends AbstractCrud<TipoReceita,any>  {
 
   @ViewChild("mainForm",{static:false}) mainForm: DxFormComponent
+  @ViewChild("crud",{static:false}) crud: CrudComponent
 
-  Mode:ModeEnum = ModeEnum.List
+  Mode:ModeEnum;
 
-
-
-  funcionario:Funcionario;
+  tipoReceita:TipoReceita;
   protected readonly ModeEnum = ModeEnum;
   situacaoAtivoInativo:string[] = Object.values(SituacaoAtivoInativoEnum);
 
   constructor(private injector:Injector,
-              private mainService:FuncionarioService,
+              private mainService:TipoReceitaService,
               private router: Router) {
-    super(injector,"/cadastro-funcionario");
+    super(injector,"/cadastro-receita");
 
   }
 
 
   protected override doOnInit() {
+    super.doOnInit();
     if(this.model == null){
-      this.model = new Funcionario()
+      this.model = new TipoReceita()
       this.model.situacao = true
-    }
 
+    }
     this.router.url.includes('create') || this.router.url.includes('edit') ?
       this.Mode = ModeEnum.Edit : this.Mode = ModeEnum.List;
 
@@ -49,22 +48,21 @@ export class CadastroFuncionarioCrudComponent extends AbstractCrud<Funcionario,a
       this.findByID(this.router.url.split('/').pop()!)
 
     }
-    super.doOnInit();
-  }
 
-
-  override doClear(){
-    this.mainForm.instance.resetValues()
-  }
-
-  novaLoja() {
-    this.router.navigate(['cadastro-funcionario', 'create'])
   }
 
   findByID(id:string){
     this.mainService.getById(id).subscribe(resp => {
       this.model = resp.body
     })
+  }
+
+  override doClear(){
+    this.mainForm.instance.resetValues()
+  }
+
+  novaReceita() {
+    this.router.navigate(['cadastro-receita', 'create'])
   }
 
   override beforeDoSave(): Observable<any> | null {

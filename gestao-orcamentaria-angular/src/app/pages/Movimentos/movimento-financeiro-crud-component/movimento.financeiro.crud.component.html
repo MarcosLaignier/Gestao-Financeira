@@ -1,0 +1,268 @@
+<crud [listToolbarTitle]="'Pesquisa de Movimentos Financeiros'"
+      [editToolbarTitle]="'Cadastro de Movimento Financeiro'"
+      (filtrar)="doFilter()"
+      (novoCadastro)="novaLoja()"
+      (salvar)="doSave(this.model)"
+      (clear)="doClear()"
+      [mode]="Mode">
+
+  <!------------------- LIST CRUD TEMPLATE -------------------->
+  <div crud-list-filter-fields >
+    <dx-form #mainForm>
+
+      <dxi-item itemType="group" [colCount]="2">
+        <dxi-item [label]="{text:'Referencia'}"
+                  [template]="'referenciaTemplate'">
+
+        </dxi-item>
+
+        <dxi-item [label]="{text:'Data'}"
+                  [template]="'criacaoTemplate'">
+
+        </dxi-item>
+      </dxi-item>
+      <dxi-item [label]="{text:'tipoMovimento'}"
+                [template]="'tipoMovTemplate'">
+
+      </dxi-item>
+
+      <!----------------- Templates ----------------->
+
+      <div *dxTemplate="let data of 'nomeTemplate'">
+        <dx-text-box [width]="500"
+        >
+
+        </dx-text-box>
+      </div>
+      <div *dxTemplate="let data of 'criacaoTemplate'">
+        <dx-date-box [width]="200"
+                     [showClearButton]="true"
+                     [useMaskBehavior]="true"
+                     [displayFormat]="'dd/MM/yyyy'">
+
+        </dx-date-box>
+      </div>
+
+      <div *dxTemplate="let data of 'referenciaTemplate'">
+        <dx-select-box [width]="200"
+                       [placeholder]="'Referencia'"
+                       [items]="referencia"
+                       [showClearButton]="true">
+
+        </dx-select-box>
+      </div>
+
+      <div *dxTemplate="let data of 'tipoMovTemplate'">
+        <dx-select-box   [items]="tipoMovimento"
+                         [width]="200">
+
+        </dx-select-box>
+
+      </div>
+    </dx-form>
+  </div>
+
+
+  <div crud-list-result-fields >
+    <dx-data-grid
+      [dataSource]="dataSource"
+      [rowAlternationEnabled]="true" >
+
+      <dxi-column dataField="referencia">
+
+      </dxi-column>
+      <dxi-column dataField="dataMovimento"
+                  cellTemplate="dataTemplate">
+
+      </dxi-column>
+      <dxi-column dataField="tipoMovimento">
+
+      </dxi-column>
+
+      <dxi-column cellTemplate="movTemplate">
+
+      </dxi-column>
+
+      <dxi-column dataField="valorDigitado">
+
+      </dxi-column>
+      <dxi-column dataField="valorTotal">
+
+      </dxi-column>
+
+      <!----------------- Templates ----------------->
+
+
+      <div *dxTemplate="let data of 'dataTemplate'">
+        {{ data.value ? (data.value | date:"dd/MM/yyyy") : "-" }}
+      </div>
+
+      <div *dxTemplate="let data of 'movTemplate'">
+        {{ data.data && data.data?.tipoReceita ? data.data?.tipoReceita?.nome : data.data?.tipoDespesa?.nome}}
+      </div>
+
+
+
+
+
+
+    </dx-data-grid>
+  </div>
+
+  <!------------------- EDIT CRUD TEMPLATE -------------------->
+
+  <div crud-edit-template>
+
+    <dx-tab-panel>
+      <dxi-item title="Movimento Financeiro">
+        <dx-form [(formData)]="movimentoFinanceiro">
+
+
+          <dxi-item dataField="referencia"
+                    [isRequired]="true"
+                    [label]="{text:'Referencia'}"
+                    [template]="'referenciaTemplate'">
+
+          </dxi-item>
+
+          <dxi-item itemType="group" [colCount]="2">
+
+            <dxi-item dataField="tipoMovimento"
+                      [isRequired]="true"
+                      [label]="{text:'Tipo Movimento'}"
+                      [template]="'tipoMovTemplate'">
+
+            </dxi-item>
+
+            <dxi-item dataField="dataMovimento"
+                      [template]="'dataMovimentoTemplate'">
+
+            </dxi-item>
+
+          </dxi-item>
+          <dxi-item itemType="group" [colCount]="2">
+
+            <dxi-item dataField="tipoDespesa"
+                      [template]="'tipoDespesaTemplate'"
+                      *ngIf="model?.tipoMovimento == tipoMovimentoRefType.DESPESA">
+
+            </dxi-item>
+
+            <dxi-item dataField="tipoReceita"
+                      [template]="'tipoReceitaTemplate'"
+                      *ngIf="model?.tipoMovimento == tipoMovimentoRefType.RECEITA">
+
+            </dxi-item>
+
+            <dxi-item [label]="{text:'Taxa'}"
+                      [template]="'taxaTemplate'"
+                      *ngIf="model?.tipoReceita?.temTaxa">
+
+            </dxi-item>
+
+          </dxi-item>
+
+          <dxi-item itemType="group" [colCount]="2">
+
+            <dxi-item dataField="valorDigitado"
+                      [template]="'digitadoTemplate'">
+
+            </dxi-item>
+
+            <dxi-item dataField="valorTotal"
+                      [template]="'totalTemplate'">
+
+            </dxi-item>
+          </dxi-item>
+
+          <!------------------- TEMPLATE -------------------->
+          <div *dxTemplate="let data of 'referenciaTemplate'">
+            <dx-select-box [(value)]="model.referencia"
+                           [items]="referencia"
+                           [width]="300">
+
+            </dx-select-box>
+
+          </div>
+
+          <div *dxTemplate="let data of 'tipoMovTemplate'">
+            <dx-select-box [(value)]="model.tipoMovimento"
+                           [items]="tipoMovimento"
+                           [width]="300"
+                           (valueChange)="onChangeTipoMovimento($event)">
+
+            </dx-select-box>
+
+          </div>
+
+          <div *dxTemplate="let data of 'dataMovimentoTemplate'">
+            <dx-date-box [width]="200"
+                         [showClearButton]="true"
+                         [useMaskBehavior]="true"
+                         [displayFormat]="'dd/MM/yyyy'"
+                         [(value)]="model.dataMovimento">
+
+            </dx-date-box>
+
+          </div>
+
+          <div *dxTemplate="let data of 'tipoReceitaTemplate'">
+            <dx-select-box [(value)]="model.tipoReceita"
+                           (valueChange)="despesaChange($event)"
+                           [items]="tipoReceitaDataSource"
+                           [displayExpr]="'nome'"
+                           [width]="300">
+
+            </dx-select-box>
+
+          </div>
+
+          <div *dxTemplate="let data of 'tipoDespesaTemplate'">
+            <dx-select-box [(value)]="model.tipoDespesa"
+                           [items]="tipoDespesaDataSource"
+                           [displayExpr]="'nome'"
+                           [width]="300">
+
+            </dx-select-box>
+
+          </div>
+
+          <div *dxTemplate="let data of 'taxaTemplate'">
+            <dx-number-box [(value)]="model.tipoReceita.percentualTaxa"
+                           [width]="200"
+                           [readOnly]="true">
+
+            </dx-number-box>
+
+          </div>
+
+          <div *dxTemplate="let data of 'digitadoTemplate'">
+            <dx-number-box [(value)]="model.valorDigitado"
+                           (valueChange)="atualizaValorDigitado($event)"
+                           [width]="200">
+
+            </dx-number-box>
+
+          </div>
+
+          <div *dxTemplate="let data of 'totalTemplate'">
+            <dx-number-box [(value)]="model.valorTotal"
+                           [width]="200"
+                           [readOnly]="true">
+
+            </dx-number-box>
+
+          </div>
+
+
+
+        </dx-form>
+
+      </dxi-item>
+
+
+    </dx-tab-panel>
+  </div>
+
+
+</crud>

@@ -3,10 +3,11 @@
       (filtrar)="doFilter()"
       (novoCadastro)="novaLoja()"
       (salvar)="doSave(this.model)"
-      (clear)="doClear()">
+      (clear)="doClear()"
+      [mode]="Mode">
 
   <!------------------- LIST CRUD TEMPLATE -------------------->
-  <div crud-list-filter-fields *ngIf="Mode == ModeEnum.List">
+  <div crud-list-filter-fields >
     <dx-form #mainForm>
       <dxi-item itemType="group" [colCount]="2">
         <dxi-item [label]="{text:'Nome'}"
@@ -38,7 +39,7 @@
   </div>
 
 
-  <div crud-list-result-fields *ngIf="Mode == ModeEnum.List">
+  <div crud-list-result-fields >
     <dx-data-grid
       [dataSource]="dataSource"
       [rowAlternationEnabled]="true" >
@@ -58,7 +59,7 @@
 
   <!------------------- EDIT CRUD TEMPLATE -------------------->
 
-  <div crud-edit-template *ngIf="Mode == ModeEnum.Edit">
+  <div crud-edit-template >
 
     <dx-tab-panel>
       <dxi-item title="Funcionario">
@@ -88,11 +89,11 @@
           </div>
 
           <div *dxTemplate="let data of 'cnpjTemplate'">
-           <dx-text-box [(value)]="model.cnpj"
-           [mask]="'000.000.000/0000-00'"
-           [width]="200">
+            <dx-text-box [(value)]="model.cnpj"
+                         [mask]="'000.000.000/0000-00'"
+                         [width]="200">
 
-           </dx-text-box>
+            </dx-text-box>
           </div>
 
         </dx-form>

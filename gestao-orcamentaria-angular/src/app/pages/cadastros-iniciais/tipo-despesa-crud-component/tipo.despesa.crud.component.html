@@ -1,5 +1,5 @@
-<crud [listToolbarTitle]="'Pesquisa de Funcionarios'"
-      [editToolbarTitle]="'Cadastro de Funcionario'"
+<crud [listToolbarTitle]="'Pesquisa de Tipos de Despesas'"
+      [editToolbarTitle]="'Cadastro de Tipo de Despesa'"
       (filtrar)="doFilter()"
       (novoCadastro)="novaLoja()"
       (salvar)="doSave(this.model)"
@@ -7,7 +7,7 @@
 [mode]="Mode">
 
   <!------------------- LIST CRUD TEMPLATE -------------------->
-  <div crud-list-filter-fields>
+  <div crud-list-filter-fields >
     <dx-form #mainForm>
       <dxi-item itemType="group" [colCount]="2">
         <dxi-item [label]="{text:'Nome'}"
@@ -15,8 +15,8 @@
 
         </dxi-item>
 
-        <dxi-item [label]="{text:'Data Admissão'}"
-                  [template]="'admissaoTemplate'">
+        <dxi-item [label]="{text:'Data Criação'}"
+                  [template]="'criacaoTemplate'">
 
         </dxi-item>
       </dxi-item>
@@ -33,7 +33,7 @@
 
         </dx-text-box>
       </div>
-      <div *dxTemplate="let data of 'admissaoTemplate'">
+      <div *dxTemplate="let data of 'criacaoTemplate'">
         <dx-date-box [width]="200"
                      [showClearButton]="true"
                      [useMaskBehavior]="true"
@@ -44,7 +44,6 @@
 
       <div *dxTemplate="let data of 'situacaoTemplate'">
         <dx-select-box [width]="200"
-                       [placeholder]="'Situação'"
                        [items]="situacaoAtivoInativo"
                        [showClearButton]="true">
 
@@ -54,7 +53,7 @@
   </div>
 
 
-  <div crud-list-result-fields>
+  <div crud-list-result-fields >
     <dx-data-grid
       [dataSource]="dataSource"
       [rowAlternationEnabled]="true" >
@@ -62,9 +61,19 @@
 
       </dxi-column>
 
-      <dxi-column dataField="dataAdmissao"
+      <dxi-column dataField="dataCriacao"
                   cellTemplate="dataTemplate"
                   [width]="'auto'">
+
+      </dxi-column>
+
+      <dxi-column dataField="pagFornecedor"
+                  cellTemplate="simNaoTemplate">
+
+      </dxi-column>
+
+      <dxi-column dataField="pagFuncionario"
+                  cellTemplate="simNaoTemplate">
 
       </dxi-column>
 
@@ -80,9 +89,12 @@
         {{ data.value ? (data.value | date:"dd/MM/yyyy") : "-" }}
       </div>
 
-
       <div *dxTemplate="let data of 'situacaoTemplate'">
         {{ data.value && data.value == true ? "Ativo" : "Inativo" }}
+      </div>
+
+      <div *dxTemplate="let data of 'simNaoTemplate'">
+        {{ data.value && data.value == true ? "Sim" : "Não" }}
       </div>
 
 
@@ -91,11 +103,11 @@
 
   <!------------------- EDIT CRUD TEMPLATE -------------------->
 
-  <div crud-edit-template>
+  <div crud-edit-template >
 
     <dx-tab-panel>
-      <dxi-item title="Funcionario">
-        <dx-form [(formData)]="funcionario">
+      <dxi-item title="Tipo Despesa">
+        <dx-form [(formData)]="tipoDespesa">
 
           <dxi-item dataField="nome"
                     [isRequired]="true"
@@ -105,8 +117,8 @@
           </dxi-item>
 
           <dxi-item itemType="group" [colCount]="2">
-            <dxi-item dataField="dataAdmissao"
-                      [template]="'dataAdmissaoTemplate'">
+            <dxi-item dataField="dataCriacao"
+                      [template]="'dataCriacaoTemplate'">
 
             </dxi-item>
             <dxi-item dataField="situacao"
@@ -115,53 +127,56 @@
             </dxi-item>
           </dxi-item>
 
-          <dxi-item dataField="dataDemissao"
-                    [template]="'dataDemissaoTemplate'"
-                    *ngIf="!model.situacao">
+          <dxi-item dataField="pagFornecedor"
+                    [template]="'pagFornecedorTemplate'"
+                    [label]="{visible:false}">
 
           </dxi-item>
 
+          <dxi-item dataField="pagFuncionario"
+                    [template]="'pagFuncionarioTemplate'"
+                    [label]="{visible:false}">
+
+          </dxi-item>
 
           <!------------------- TEMPLATE -------------------->
-
-          <div *dxTemplate="let data of 'NomeTemplate'">
-            <dx-text-box [width]="500"
-                         [placeholder]="'Digite aqui o Nome'"
-                         [(value)]="model.nome">
-
-            </dx-text-box>
-          </div>
-
-          <div *dxTemplate="let data of 'dataAdmissaoTemplate'">
+          <div *dxTemplate="let data of 'dataCriacaoTemplate'">
             <dx-date-box [width]="200"
                          [showClearButton]="true"
                          [useMaskBehavior]="true"
-                         [displayFormat]="'dd/MM/yyyy'"
-                         [(value)]="model.dataAdmissao">
-
-            </dx-date-box>
-
-          </div>
-
-          <div *dxTemplate="let data of 'dataDemissaoTemplate'">
-            <dx-date-box [width]="200"
-                         [showClearButton]="true"
-                         [useMaskBehavior]="true"
-                         [displayFormat]="'dd/MM/yyyy'"
-                         [(value)]="model.dataDemissao">
+                         [displayFormat]="'dd/MM/yyyy'">
 
             </dx-date-box>
 
           </div>
 
           <div *dxTemplate="let data of 'situacaoTemplate'">
-            <dx-switch [(value)]="model.situacao"
-                       [switchedOnText]="'Ativo'"
-                       [switchedOffText]="'Inativo'">
+            <dx-switch [(value)]="model.situacao">
 
             </dx-switch>
           </div>
 
+          <div *dxTemplate="let data of 'NomeTemplate'">
+            <dx-text-box [width]="500"
+                         [placeholder]="'Digite aqui o Nome da Despesa'"
+                         [(value)]="model.nome">
+
+            </dx-text-box>
+          </div>
+
+          <div *dxTemplate="let data of 'pagFornecedorTemplate'">
+            <dx-check-box [(value)]="model.pagFornecedor"
+                          [text]="'É pagamento de Fornecedor'">
+
+            </dx-check-box>
+          </div>
+
+          <div *dxTemplate="let data of 'pagFuncionarioTemplate'">
+            <dx-check-box [(value)]="model.pagFuncionario"
+                          [text]="'É pagamento de Funcionario'">
+
+            </dx-check-box>
+          </div>
         </dx-form>
 
       </dxi-item>
