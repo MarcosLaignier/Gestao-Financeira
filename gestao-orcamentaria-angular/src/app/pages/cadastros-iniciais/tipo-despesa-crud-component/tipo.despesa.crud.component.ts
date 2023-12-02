@@ -24,6 +24,7 @@ export class TipoDespesaCrudComponent extends AbstractCrud<TipoDespesa,any>  {
   tipoDespesa:TipoDespesa;
   protected readonly ModeEnum = ModeEnum;
   situacaoAtivoInativo:string[] = Object.values(SituacaoAtivoInativoEnum);
+  despesaSelecionada:TipoDespesa;
 
   constructor(private injector:Injector,
               private mainService:TipoDespesaService,
@@ -72,5 +73,13 @@ export class TipoDespesaCrudComponent extends AbstractCrud<TipoDespesa,any>  {
 
   override getMainService(): any {
     return this.mainService;
+  }
+
+  edit(event: any) {
+    if(event && event.key){
+      this.despesaSelecionada = event.key
+      this.router.navigate(['cadastro-despesa', 'edit', this.despesaSelecionada.id])
+
+    }
   }
 }

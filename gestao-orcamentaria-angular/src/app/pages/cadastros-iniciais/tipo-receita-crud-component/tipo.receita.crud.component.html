@@ -58,7 +58,8 @@
   <div crud-list-result-fields >
     <dx-data-grid
       [dataSource]="dataSource"
-      [rowAlternationEnabled]="true" >
+      [rowAlternationEnabled]="true"
+      (onRowDblClick)="edit($event)">
       <dxi-column dataField="nome">
 
       </dxi-column>

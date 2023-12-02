@@ -22,6 +22,7 @@ export class TipoReceitaCrudComponent extends AbstractCrud<TipoReceita,any>  {
   Mode:ModeEnum;
 
   tipoReceita:TipoReceita;
+  receitaSelecionada:TipoReceita;
   protected readonly ModeEnum = ModeEnum;
   situacaoAtivoInativo:string[] = Object.values(SituacaoAtivoInativoEnum);
 
@@ -71,5 +72,13 @@ export class TipoReceitaCrudComponent extends AbstractCrud<TipoReceita,any>  {
 
   override getMainService(): any {
     return this.mainService;
+  }
+
+  edit(event: any) {
+    if(event && event.key){
+      this.receitaSelecionada = event.key
+      this.router.navigate(['cadastro-receita', 'edit', this.receitaSelecionada.id])
+
+    }
   }
 }
