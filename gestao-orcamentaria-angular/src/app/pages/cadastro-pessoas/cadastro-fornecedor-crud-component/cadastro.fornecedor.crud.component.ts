@@ -26,6 +26,7 @@ export class CadastroFornecedorCrudComponent extends AbstractCrud<Fornecedor,any
 
 
   fornecedor:Fornecedor;
+  fornecedorSelecionado: Fornecedor;
   protected readonly ModeEnum = ModeEnum;
   situacaoAtivoInativo:string[] = Object.values(SituacaoAtivoInativoEnum);
 
@@ -75,5 +76,13 @@ export class CadastroFornecedorCrudComponent extends AbstractCrud<Fornecedor,any
 
   override getMainService(): any {
     return this.mainService;
+  }
+
+  edit(event: any) {
+    if(event && event.key){
+      this.fornecedorSelecionado = event.key
+      this.router.navigate(['cadastro-fornecedor', 'edit', this.fornecedorSelecionado.id])
+
+    }
   }
 }

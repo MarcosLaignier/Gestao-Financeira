@@ -24,6 +24,7 @@ export class CadastroFuncionarioCrudComponent extends AbstractCrud<Funcionario,a
 
 
   funcionario:Funcionario;
+  funcionarioSelecionado:Funcionario;
   protected readonly ModeEnum = ModeEnum;
   situacaoAtivoInativo:string[] = Object.values(SituacaoAtivoInativoEnum);
 
@@ -73,5 +74,13 @@ export class CadastroFuncionarioCrudComponent extends AbstractCrud<Funcionario,a
 
   override getMainService(): any {
     return this.mainService;
+  }
+
+  edit(event: any) {
+    if(event && event.key){
+      this.funcionarioSelecionado = event.key
+      this.router.navigate(['cadastro-funcionario', 'edit', this.funcionarioSelecionado.id])
+
+    }
   }
 }

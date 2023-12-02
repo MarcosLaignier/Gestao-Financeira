@@ -4,7 +4,7 @@
       (novoCadastro)="novaLoja()"
       (salvar)="doSave(this.model)"
       (clear)="doClear()"
-[mode]="Mode">
+      [mode]="Mode">
 
   <!------------------- LIST CRUD TEMPLATE -------------------->
   <div crud-list-filter-fields>
@@ -57,7 +57,8 @@
   <div crud-list-result-fields>
     <dx-data-grid
       [dataSource]="dataSource"
-      [rowAlternationEnabled]="true" >
+      [rowAlternationEnabled]="true"
+      (onRowDblClick)="edit($event)">
       <dxi-column dataField="nome">
 
       </dxi-column>
