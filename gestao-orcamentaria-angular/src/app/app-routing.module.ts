@@ -23,42 +23,16 @@ import {
 } from "./pages/Movimentos/movimento-financeiro-crud-component/movimento.financeiro.crud.component";
 
 const routes: Routes = [
-  {
-    path: 'tasks',
-    component: TasksComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'login-form',
-    component: LoginFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'reset-password',
-    component: ResetPasswordFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'create-account',
-    component: CreateAccountFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'change-password/:recoveryCode',
-    component: ChangePasswordFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-/** INICIANDO ROTAS */
+  /** ROTAS PADROES */
+  {path: 'tasks',component: TasksComponent,canActivate: [ AuthGuardService ]},
+  {path: 'profile',component: ProfileComponent,canActivate: [ AuthGuardService ]},
+  {path: 'home',component: HomeComponent,canActivate: [ AuthGuardService ]},
+  {path: 'login-form',component: LoginFormComponent,canActivate: [ AuthGuardService ]},
+  {path: 'reset-password', component: ResetPasswordFormComponent, canActivate: [ AuthGuardService ]},
+  {path: 'create-account', component: CreateAccountFormComponent, canActivate: [ AuthGuardService ]},
+  {path: 'change-password/:recoveryCode',component: ChangePasswordFormComponent,canActivate: [ AuthGuardService ]},
+
+  /** INICIANDO ROTAS PERSONALIZADAS */
 
     /** RECEITA */
   {path: 'cadastro-receita', component: TipoReceitaCrudComponent, canActivate: [ AuthGuardService ]},
@@ -70,28 +44,23 @@ const routes: Routes = [
   {path: 'cadastro-despesa/create', component: TipoDespesaCrudComponent, canActivate: [ AuthGuardService ]},
   {path: 'cadastro-despesa/edit/:id', component: TipoDespesaCrudComponent, canActivate: [ AuthGuardService ]},
 
+  /** MOVIMENTO FINANCEIRO */
+  {path: 'movimentos-financeiros',component: MovimentoFinanceiroCrudComponent,canActivate: [ AuthGuardService ]},
+  {path: 'movimentos-financeiros/create', component: MovimentoFinanceiroCrudComponent, canActivate: [ AuthGuardService ]},
+  {path: 'movimentos-financeiros/edit/:id', component: MovimentoFinanceiroCrudComponent, canActivate: [ AuthGuardService ]},
 
+  /** CADASTRO DE FUNCIONARIO */
+  {path: 'cadastro-funcionario',component: CadastroFuncionarioCrudComponent,canActivate: [ AuthGuardService ]},
+  {path: 'cadastro-funcionario/create', component: CadastroFuncionarioCrudComponent, canActivate: [ AuthGuardService ]},
+  {path: 'cadastro-funcionario/edit/:id', component: CadastroFuncionarioCrudComponent, canActivate: [ AuthGuardService ]},
 
-  {
-    path: 'cadastro-funcionario',
-    component: CadastroFuncionarioCrudComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'cadastro-fornecedor',
-    component: CadastroFornecedorCrudComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'movimentos-financeiros',
-    component: MovimentoFinanceiroCrudComponent,
-    canActivate: [ AuthGuardService ]
-  },
+  /** CADASTRO DE FORNECEDOR */
+  {path: 'cadastro-fornecedor',component: CadastroFornecedorCrudComponent,canActivate: [ AuthGuardService ]},
+  {path: 'cadastro-fornecedor/create', component: CadastroFornecedorCrudComponent, canActivate: [ AuthGuardService ]},
+  {path: 'cadastro-fornecedor/edit/:id', component: CadastroFornecedorCrudComponent, canActivate: [ AuthGuardService ]},
 
-  {
-    path: '**',
-    redirectTo: 'home'
-  }
+  /** HOME */
+  {path: '**', redirectTo: 'home'}
 ];
 
 @NgModule({
