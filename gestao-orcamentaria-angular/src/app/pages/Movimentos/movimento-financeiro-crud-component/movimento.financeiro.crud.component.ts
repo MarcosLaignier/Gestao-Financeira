@@ -12,6 +12,7 @@ import {TipoDespesa} from "../../../shared/model/tipo.despesa";
 import {MovimentoFinanceiroService} from "../../../shared/services/movimento.financeiro.service";
 import {TipoDespesaService} from "../../../shared/services/tipo.despesa.service";
 import {ReferenciaEnum} from "../../../shared/enum/referencia.enum";
+import {HttpStatusCode} from "@angular/common/http";
 
 @Component({
   selector: 'tipo-receita',
@@ -27,6 +28,7 @@ export class MovimentoFinanceiroCrudComponent extends AbstractCrud<MovimentoFina
 
 
   movimentoFinanceiro:MovimentoFinanceiro;
+  movimentoSelecionado: MovimentoFinanceiro;
   protected readonly ModeEnum = ModeEnum;
   tipoMovimento:string[] = Object.values(TipoMovimentoEnum);
   referencia:string[] = Object.values(ReferenciaEnum);
@@ -113,4 +115,13 @@ export class MovimentoFinanceiroCrudComponent extends AbstractCrud<MovimentoFina
   override getMainService(): any {
     return this.mainService;
   }
+
+  edit(event: any) {
+    if(event && event.key){
+      this.movimentoSelecionado = event.key
+      this.router.navigate(['movimentos-financeiros', 'edit', this.movimentoSelecionado.id])
+
+    }
+  }
+
 }
