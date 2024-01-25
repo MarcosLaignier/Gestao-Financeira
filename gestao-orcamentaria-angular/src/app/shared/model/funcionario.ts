@@ -4,5 +4,6 @@ export class Funcionario{
   dataAdmissao: any;
   dataDemissao:any;
   situacao: boolean;
+  ehMotoboy: boolean;
   versao: number;
 }

@@ -110,6 +110,10 @@
                       [template]="'dataAdmissaoTemplate'">
 
             </dxi-item>
+            <dxi-item dataField="ehMotoboy"
+                      [template]="'ehMotoboyTemplate'">
+
+            </dxi-item>
             <dxi-item dataField="situacao"
                       [template]="'situacaoTemplate'">
 
@@ -162,6 +166,14 @@
 
             </dx-switch>
           </div>
+
+          <div *dxTemplate="let data of 'ehMotoboyTemplate'">
+            <dx-check-box [(value)]="model.ehMotoboy"
+                          [text]="'É motoboy'">
+
+            </dx-check-box>
+          </div>
+
 
         </dx-form>
 

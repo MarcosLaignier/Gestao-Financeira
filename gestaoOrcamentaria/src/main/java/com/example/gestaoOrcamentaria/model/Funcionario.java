@@ -17,6 +17,8 @@ public class Funcionario {
     private Date dataDemissao;
     private Boolean situacao;
 
+    private Boolean ehMotoboy;
+
     @Version
     private Integer versao = 0;
 
@@ -58,6 +60,14 @@ public class Funcionario {
 
     public void setSituacao(Boolean situacao) {
         this.situacao = situacao;
+    }
+
+    public Boolean getEhMotoboy() {
+        return ehMotoboy;
+    }
+
+    public void setEhMotoboy(Boolean ehMotoboy) {
+        this.ehMotoboy = ehMotoboy;
     }
 
     public Integer getVersao() {
